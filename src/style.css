@@ -8,18 +8,6 @@
 	--muted: rgba(255,255,255,0.65);
 }
 
-/* Page background & video tweaks */
-video.fixed.object-cover{
-	opacity: 0.38;
-	filter: brightness(0.7) saturate(1.05);
-}
-
-body{
-	color: #e6eef8;
-	background: linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.6));
-	min-height: 100vh;
-}
-
 header{
 	background: linear-gradient(90deg, rgba(2,6,23,0.85), rgba(15,23,42,0.7));
 	backdrop-filter: blur(6px);
@@ -36,20 +24,12 @@ header{
 	backdrop-filter: blur(8px) saturate(1.05);
 }
 
-.currentWeather{
+/* .currentWeather{
 	background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(37,99,235,0.04));
 	opacity: 1 !important;
 	color: #ffffff;
 	padding: 1rem;
-}
-
-.currentWeather h1{
-	position: absolute;
-	left: 1rem;
-	top: 1rem;
-	color: #ffffff;
-	text-shadow: 0 6px 18px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.02);
-}
+} */
 
 /* Inputs and buttons */
 input#searchLocation{

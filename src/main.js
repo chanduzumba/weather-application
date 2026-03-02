@@ -2,6 +2,7 @@
 const searchInput = document.getElementById("searchLocation");
 const searchList = document.querySelector(".searchList");
 const body = document.querySelector("body");
+const videoBg = document.querySelector("video");
 
 //API key from Open Weather API to make api calls
 const apiKey = '8aec84a0fbcfadc5b6fa4ff8c7a56a26';
@@ -78,10 +79,7 @@ async function fetchWeatherForecast(location) {
         const weatherData = await response.json();
         if (weatherData) {
             //update DOM with weather data pending
-            // updateWeatherData(weatherData);
-            const main = weatherData.main;
-    const temp = document.querySelector('.currentWeather>h1');
-    temp.innerHTML = `${main.temp}<sup>o</sup>`
+            updateWeatherData(weatherData);
         } else {
             showToast('No weather data found for the location')
         }
@@ -94,8 +92,30 @@ async function fetchWeatherForecast(location) {
 //updateWeatherData function to update DOM with dynamic data
 function updateWeatherData(weather) {
     const main = weather.main;
-    const temp = document.querySelector('.currentWeather:firstChild');
+    const temp = document.querySelector('.weatherTemp');
+    const day = document.querySelector('.weatherCondition');
+    const icon = document.querySelector('.weatherIcon'); 
     temp.innerHTML = `${main.temp}<sup>o</sup>`
+    day.innerHTML = `${weather.weather[0].description} day`
+    icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png" alt="Weather ICON"></img>`
+    changeBackdrop(weather.weather[0].id);
+}
+
+//function to change background video
+function changeBackdrop(code) {
+    if(code >= 200 && code <= 232) {
+        videoBg.src = '../assets/thunderbg.mp4' //load thunder storm bg
+    } else if (code >= 300 && code <=531) {
+        videoBg.src = '../assets/rainybg.mp4' //load rainy bg
+    } else if (code >= 600 && code <= 622) {
+        videoBg.src = '../assets/snowybg.mp4' //load snowy bg
+    } else if (code >= 700 && code <= 781) {
+        videoBg.src = '../assets/windybg.mp4' //load windy bg
+    } else if (code >= 800 && code <= 804) {
+        videoBg.src = '../assets/skybg.mp4' // load cloudy bg
+    }
+    videoBg.load()
+    videoBg.play()
 }
 
 // function to get current location
