@@ -31,6 +31,7 @@
         <!--Search location input field-->
         <div class="relative w-full mt-2 mb-2 p-5">
           <span class="absolute top-8 right-10"><i class="fa-solid fa-location-dot"></i></span>
+          <span class="dropdown-menu hidden absolute top-7 right-20 text-2xl"><i class="fa-solid fa-caret-down"></i></span>
           <input type="text" id="searchLocation" placeholder="Search for a location..." value=""
             class="w-full border border-solid rounded-xl text-white font-semibold opacity-100 mt-2 p-2 bg-gray-500 focus:outline-blue-400 ">
           <!-- Search results dropdown -->
@@ -43,7 +44,7 @@
         <button id="currentLocationBtn" onclick="getLocation()"
           class="border w-3/4 self-center bg-blue-950 text-white rounded-xl p-2 opacity-100 hover:bg-gray-700 focus:outline-none">
           <i class="fa-solid fa-location-crosshairs"></i> Current Location
-        </button>
+        </button> 
         <!-- Current weather display -->
         <div class="flex flex-col rounded-2xl mt-2 mb-4 p-1 bg-gray-500 w-full h-full">
           <div class="currentWeather flex flex-col gap-2 justify-center items-center relative h-full border-none rounded-2xl w-full bg-gray-500">

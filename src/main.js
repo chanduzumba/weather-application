@@ -3,12 +3,23 @@ const searchInput = document.getElementById("searchLocation");
 const searchList = document.querySelector(".searchList");
 const body = document.querySelector("body");
 const videoBg = document.querySelector("video");
+const currentLocationButton = document.querySelector('#currentLocationBtn');
+const dropdownMenu = document.querySelector('.dropdown-menu');
 
 //API key from Open Weather API to make api calls
 const apiKey = '8aec84a0fbcfadc5b6fa4ff8c7a56a26';
 
 //add event listener to search on input
 searchInput.addEventListener(('input'), e => fetchLocationSuggestions(e.target.value));
+
+//add event listener for dropdown menu
+dropdownMenu.addEventListener(('mouseenter'),() => updateRecentSearchList());
+
+//add event listener for searchList
+dropdownMenu.addEventListener(('mouseenter'),() => updateRecentSearchList());
+
+//add event listener for hide search list on leaving dropdown
+searchList.addEventListener(('mouseleave'),() => hideSearchList());
 
 //add event listener to body to hide search list
 body.addEventListener(('click'), () => {
@@ -20,8 +31,22 @@ function hideSearchList() {
     searchList.classList.add("hidden")
 }
 
+//update recent search list
+function updateRecentSearchList() {
+    const recentLocations = JSON.parse(localStorage.getItem('Locations')) || [];
+    displayLocationSuggestions(recentLocations);
+}
+
+//show dropdown icon
+function showDropdown() {
+    if((localStorage.getItem('Locations') || []).length) {
+        dropdownMenu.classList.remove('hidden');
+    }
+}
+
 //function to fetch location suggestions
 async function fetchLocationSuggestions(query) {
+    showDropdown();
     if (query.length < 2) {
         hideSearchList();
         return
@@ -45,7 +70,6 @@ async function fetchLocationSuggestions(query) {
 function displayLocationSuggestions(locationArray) {
     searchList.classList.remove('hidden');  //display search list of locations
     searchList.innerHTML = ''; // empty first before displaying new data
-
     locationArray.forEach(location => {
         const listItem = getListItem();
         listItem.textContent = `${location.name}, ${location.state}, ${location.country}`;
@@ -53,6 +77,12 @@ function displayLocationSuggestions(locationArray) {
         listItem.addEventListener('click', () => {
             selectLocation(location, listItem.textContent);
         });
+        //Adding event listener to read enter or space for selection
+        listItem.addEventListener('keydown', (e) => {
+            if(e.key == 'Enter' || e.key == ' ') {
+                selectLocation(location, listItem.textContent);
+            }
+        })
         searchList.appendChild(listItem); // append list within <ul></ul> element
     });
 }
@@ -60,7 +90,9 @@ function displayLocationSuggestions(locationArray) {
 //get List Item
 function getListItem() {
     const listItem = document.createElement('li');
-    listItem.classList.add("p-4", "cursor-pointer", "transition", "delay-75", "ease-in", "border", "border-b-4", "border-b-violet-400");
+    listItem.classList.add("p-4", "cursor-pointer", "transition", "delay-75", "ease-in", "border", "border-b-4", "border-b-violet-400", 'hover:border-b-violet-900');
+    //adding accessibility using tab key
+    listItem.setAttribute('tabindex', 0)
     return listItem;
 }
 
@@ -68,17 +100,25 @@ function getListItem() {
 function selectLocation(locationObj, locationText) {
     searchInput.value = locationText; // update input field with selected value
     hideSearchList(); // hide search list
-    fetchWeatherForecast(locationObj); // make api call to get weather for selected location
+    //Add to local storage
+    const recentLocations = JSON.parse(localStorage.getItem('Locations')) || []
+    if(!recentLocations.find(location => location.lat == locationObj.lat)){
+        recentLocations.push(locationObj)
+        localStorage.setItem('Locations', JSON.stringify(recentLocations))
+    }
+    fetchWeatherForecast(locationObj, 'metric'); // make api call to get weather for selected location
 }
 
 //API call function to fetch weather details of selected location
-async function fetchWeatherForecast(location) {
+async function fetchWeatherForecast(location, units) {
     try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=metric&appid=${apiKey}`) // OPEN weather api call using lat and long and API key
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=${units}&appid=${apiKey}`) // OPEN weather api call using lat and long and API key
         //extract weather json from response
         const weatherData = await response.json();
         if (weatherData) {
             //update DOM with weather data pending
+            searchInput.value = `${weatherData.name}`
+            localStorage.setItem('currentLocation', JSON.stringify(location))
             updateWeatherData(weatherData);
         } else {
             showToast('No weather data found for the location')
@@ -99,6 +139,8 @@ function updateWeatherData(weather) {
     day.innerHTML = `${weather.weather[0].description} day`
     icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png" alt="Weather ICON"></img>`
     changeBackdrop(weather.weather[0].id);
+    removePulseAnimation();
+    showDropdown();
 }
 
 //function to change background video
@@ -121,18 +163,28 @@ function changeBackdrop(code) {
 // function to get current location
 function getLocation() {
     if (navigator.geolocation) {
+        //add pulse animation to button
+        currentLocationButton.classList.add('animate-pulse')
+        
         // Get current position; specify success, error, and optional options callbacks
-        navigator.geolocation.getCurrentPosition((position) => fetchWeatherForecast({ lat: position.coords.latitude, lon: position.coords.longitude }), showError, {
+        navigator.geolocation.getCurrentPosition((position) => fetchWeatherForecast({ lat: position.coords.latitude, lon: position.coords.longitude }, 'metric'), showError, {
             enableHighAccuracy: true,
-            timeout: 5000,
+            timeout: 10000,
             maximumAge: 0
         });
     } else {
+        removePulseAnimation();
         showToast('Geolocation not supported by your browser')
     }
 }
 
+//function to remove pulse animation on button
+function removePulseAnimation() {
+    currentLocationButton.classList.remove('animate-pulse')
+}
+
 function showError(error) {
+    removePulseAnimation();
     let errMsg = '';
     switch (error.code) {
         case error.PERMISSION_DENIED:
@@ -162,5 +214,7 @@ function showToast(message) {
   }, 3000);
 }
 
-//default call
-fetchWeatherForecast({lat:12.9629,lon:77.5775})
+//default call weather forecast for bangalore
+fetchWeatherForecast({lat:12.9629,lon:77.5775}, 'metric')
+//show dropdown for recently searched locations
+showDropdown()
