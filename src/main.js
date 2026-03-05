@@ -21,13 +21,13 @@ searchInput.addEventListener(('keydown'), e => {
 });
 
 //add event listener for dropdown menu
-dropdownMenu.addEventListener(('mouseenter'),() => updateRecentSearchList());
+dropdownMenu.addEventListener(('mouseenter'), () => updateRecentSearchList());
 
 //add event listener for searchList
-dropdownMenu.addEventListener(('mouseenter'),() => updateRecentSearchList());
+dropdownMenu.addEventListener(('mouseenter'), () => updateRecentSearchList());
 
 //add event listener for hide search list on leaving dropdown
-searchList.addEventListener(('mouseleave'),() => hideSearchList());
+searchList.addEventListener(('mouseleave'), () => hideSearchList());
 
 //add event listener to body to hide search list
 body.addEventListener('click', () => {
@@ -47,7 +47,7 @@ function updateRecentSearchList() {
 
 //show dropdown icon
 function showDropdown() {
-    if((localStorage.getItem('Locations') || []).length) {
+    if ((localStorage.getItem('Locations') || []).length) {
         dropdownMenu.classList.remove('hidden');
     }
 }
@@ -88,7 +88,7 @@ function displayLocationSuggestions(locationArray) {
         });
         //Adding event listener to read enter or space for selection
         listItem.addEventListener('keydown', (e) => {
-            if(e.key == 'Enter' || e.key == ' ') {
+            if (e.key == 'Enter' || e.key == ' ') {
                 selectLocation(location, listItem.textContent);
             }
         })
@@ -113,7 +113,7 @@ function selectLocation(locationObj, locationText) {
     toggle.checked = false; // reset toggle to default metric unit on new search
     //Add to local storage
     const recentLocations = JSON.parse(localStorage.getItem('Locations')) || []
-    if(!recentLocations.find(location => location.lat == locationObj.lat)){
+    if (!recentLocations.find(location => location.lat == locationObj.lat)) {
         recentLocations.push(locationObj)
         localStorage.setItem('Locations', JSON.stringify(recentLocations))
     }
@@ -126,7 +126,7 @@ function selectLocation(locationObj, locationText) {
 async function fetch5DayForecast(location, units) {
     try {
         const response = await fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${location.lat}&lon=${location.lon}&units=${units}&appid=${apiKey}`) // forecast
-    //extract weather json from response
+        //extract weather json from response
         const weatherInfo = await response.json();
         if (weatherInfo) {
             //update DOM with weather data pending
@@ -145,11 +145,13 @@ async function fetch5DayForecast(location, units) {
 
 //updateForecastData to update DOM with 5-day forecastdata
 function updateForecastData(weatherList) {
-   weatherList = weatherList.list.filter((item) => item.dt_txt.includes("12:00:00")); // filter data for 5 days at 12 PM
-   forecastContainer.innerHTML = '';
+    weatherList = weatherList.list.filter((item) => item.dt_txt.includes("12:00:00")); // filter data for 5 days at 12 PM
+    forecastContainer.innerHTML = '';
+    // loop through each weather data and create a card for each day
     weatherList.forEach(weather => {
         const weatherDiv = document.createElement('div');
         const dayName = new Date(weather.dt_txt).toLocaleDateString('en-US', { weekday: 'short' });
+        // Each card will have day name, weather icon, weather condition, temperature, wind speed and humidity
         weatherDiv.innerHTML = '<span class="weatherDate">' + dayName + '</span>' +
             '<span class="weatherIcon"><img src="https://openweathermap.org/img/wn/' + weather.weather[0].icon + '.png" alt="Weather Icon"></span>' +
             '<span class="weatherCondition">' + weather.weather[0].description + '</span>' +
@@ -157,7 +159,7 @@ function updateForecastData(weatherList) {
             '<span class="weatherTemp"><i class="fas fa-thermometer-half"></i> <span>' + weather.main.temp + '<sup>°</sup></span></span>' +
             '<span class="weatherTemp"><i class="fas fa-wind"></i> <span>' + weather.wind.speed + ' m/s</span></span>' +
             '<span class="weatherTemp"><i class="fas fa-tint"></i> <span>' + weather.main.humidity + '%</span></span>';
-        forecastContainer.appendChild(weatherDiv);
+        forecastContainer.appendChild(weatherDiv); // append each card to forecast container
     })
 }
 
@@ -169,23 +171,23 @@ function updateWeatherData(weather) {
     const weatherLocation = document.querySelector('.weatherLocation');
     const weatherDate = document.querySelector('.weatherDate');
     const day = document.querySelector('.weatherCondition');
-    const icon = document.querySelector('.weatherIcon'); 
+    const icon = document.querySelector('.weatherIcon');
     const feelsLike = document.querySelector('.weatherFeelsLike');
     const humidity = document.querySelector('.weatherHumidity');
     const weatherWindSpeed = document.querySelector('.weatherWindSpeed');
-    temp.innerHTML = `<i class="fas fa-thermometer-half "></i> ${main.temp}<sup>o</sup>`
-    weatherLocation.innerHTML = `${searchInput.value}`|| `${weather.city.name}, ${weather.city.country}`;
+    temp.innerHTML = `<i class="fas fa-thermometer-half "></i> ${main.temp}<sup>o</sup>` // set current temperature
+    weatherLocation.innerHTML = `${searchInput.value}` || `${weather.city.name}, ${weather.city.country}`; // set location name
     const today = new Date(weather.list[0].dt_txt).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-    weatherDate.innerHTML = `Today, ${today}`
-    day.innerHTML = `${weatherDetails.description} day`
-    icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${weatherDetails.icon}@2x.png" alt="Weather ICON"></img>`
+    weatherDate.innerHTML = `Today, ${today}` // set current date
+    day.innerHTML = `${weatherDetails.description} day` //set weather condition like clear sky, rain, snow etc
+    icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${weatherDetails.icon}@2x.png" alt="Weather ICON"></img>` // set weather icon
     feelsLike.innerHTML = `${main.feels_like}<sup>o</sup>`
     humidity.innerHTML = `${main.humidity}%`
     weatherWindSpeed.innerHTML = `${weather.list[0].wind.speed} m/s`
-    changeBackdrop(weatherDetails.id);
-    removePulseAnimation();
-    showDropdown();
-    
+    changeBackdrop(weatherDetails.id); // change background video based on weather condition code
+    removePulseAnimation(); // remove pulse animation from current location button if applied
+    showDropdown(); // show dropdown icon for recently searched locations
+
     // Check for extreme temperature and show alert
     const checkbox = document.getElementById('toggle');
     const unit = checkbox.checked ? 'imperial' : 'metric';
@@ -198,9 +200,9 @@ function updateWeatherData(weather) {
 
 //function to change background video
 async function changeBackdrop(code) {
-    if(code >= 200 && code <= 232) {
+    if (code >= 200 && code <= 232) {
         videoBg.src = '../assets/thunderbg.mp4' //load thunder storm bg
-    } else if (code >= 300 && code <=531) {
+    } else if (code >= 300 && code <= 531) {
         videoBg.src = '../assets/rainybg.mp4' //load rainy bg
     } else if (code >= 600 && code <= 622) {
         videoBg.src = '../assets/snowybg.mp4' //load snowy bg
@@ -218,12 +220,9 @@ function getLocation() {
     if (navigator.geolocation) {
         //add pulse animation to button
         currentLocationButton.classList.add('animate-pulse')
-        
+
         // Get current position; specify success, error, and optional options callbacks
-        navigator.geolocation.getCurrentPosition((position) => {
-            // fetchWeatherForecast({ lat: position.coords.latitude, lon: position.coords.longitude }, 'metric')
-            fetch5DayForecast({ lat: position.coords.latitude, lon: position.coords.longitude }, 'metric')
-        }, showError, {
+        navigator.geolocation.getCurrentPosition((position) => fetch5DayForecast({ lat: position.coords.latitude, lon: position.coords.longitude }, 'metric'), showError, {
             enableHighAccuracy: true,
             timeout: 10000,
             maximumAge: 0
@@ -239,6 +238,7 @@ function removePulseAnimation() {
     currentLocationButton.classList.remove('animate-pulse')
 }
 
+//function to handle geolocation errors
 function showError(error) {
     removePulseAnimation();
     let errMsg = '';
@@ -261,84 +261,82 @@ function showError(error) {
 
 //show toaster message for api errors
 function showToast(message) {
-  const toast = document.createElement('div');
-  toast.textContent = message;
-  toast.className = "fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50";
-  document.body.appendChild(toast);
-  setTimeout(() => {
-    document.body.removeChild(toast);
-  }, 3000);
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.className = "fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50";
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        document.body.removeChild(toast);
+    }, 3000);
 }
 
 //function to check and show alert for extreme temperatures
 function checkExtremeTemperature(temp, unit) {
-  let isExtreme = false;
-  let alertMessage = '';
-  
-  if (unit === 'metric') {
-    // Celsius thresholds
-    if (temp > 40) {
-      isExtreme = true;
-      alertMessage = `⚠️ EXTREME HEAT ALERT! Temperature is ${temp}°C - Stay hydrated and avoid prolonged sun exposure!`;
-    } else if (temp < 0) {
-      isExtreme = true;
-      alertMessage = `❄️ EXTREME COLD ALERT! Temperature is ${temp}°C - Dress warmly and limit outdoor activities!`;
-      changeBackdrop(600); // change to snowy backdrop for extreme cold
+    let isExtreme = false;
+    let alertMessage = '';
+
+    if (unit === 'metric') {
+        // Celsius thresholds
+        if (temp > 40) {
+            isExtreme = true;
+            alertMessage = `⚠️ EXTREME HEAT ALERT! Temperature is ${temp}°C - Stay hydrated and avoid prolonged sun exposure!`;
+        } else if (temp < 0) {
+            isExtreme = true;
+            alertMessage = `❄️ EXTREME COLD ALERT! Temperature is ${temp}°C - Dress warmly and limit outdoor activities!`;
+            changeBackdrop(600); // change to snowy backdrop for extreme cold
+        }
+    } else {
+        // Fahrenheit thresholds
+        if (temp > 104) {
+            isExtreme = true;
+            alertMessage = `⚠️ EXTREME HEAT ALERT! Temperature is ${temp}°F - Stay hydrated and avoid prolonged sun exposure!`;
+        } else if (temp < 32) {
+            isExtreme = true;
+            alertMessage = `❄️ EXTREME COLD ALERT! Temperature is ${temp}°F - Dress warmly and limit outdoor activities!`;
+            changeBackdrop(600); // change to snowy backdrop for extreme cold
+        }
     }
-  } else {
-    // Fahrenheit thresholds
-    if (temp > 104) {
-      isExtreme = true;
-      alertMessage = `⚠️ EXTREME HEAT ALERT! Temperature is ${temp}°F - Stay hydrated and avoid prolonged sun exposure!`;
-    } else if (temp < 32) {
-      isExtreme = true;
-      alertMessage = `❄️ EXTREME COLD ALERT! Temperature is ${temp}°F - Dress warmly and limit outdoor activities!`;
-      changeBackdrop(600);
+
+    if (isExtreme) {
+        showExtremeAlert(alertMessage);
     }
-  }
-  
-  if (isExtreme) {
-    showExtremeAlert(alertMessage);
-  }
 }
 
 //function to check and show alert for extreme rainfall
 function checkExtremeRainfall(amount) {
-  // amount is in millimeters (mm)
-  if (amount >= 50) { // threshold for very heavy rain in short period
-    showExtremeAlert(`🌧️ HEAVY RAIN ALERT! ${amount}mm of precipitation detected - seek shelter and avoid flooded areas.`);
-  }
+    // amount is in millimeters (mm)
+    if (amount >= 50) { // threshold for very heavy rain in short period
+        showExtremeAlert(`🌧️ HEAVY RAIN ALERT! ${amount}mm of precipitation detected - seek shelter and avoid flooded areas.`);
+    }
 }
 //function to display extreme temperature alert
 function showExtremeAlert(message) {
-  const alert = document.createElement('div');
-  alert.textContent = message;
-  alert.className = "fixed top-4 left-1/2 transform -translate-x-1/2 bg-orange-600 text-white px-6 py-3 rounded-lg shadow-2xl z-50 font-bold text-center max-w-md";
-  document.body.appendChild(alert);
-  setTimeout(() => {
-    if(document.body.contains(alert)) {
-      document.body.removeChild(alert);
-    }
-  }, 5000);
+    const alert = document.createElement('div');
+    alert.textContent = message;
+    alert.className = "fixed top-4 left-1/2 transform -translate-x-1/2 bg-orange-600 text-white px-6 py-3 rounded-lg shadow-2xl z-50 font-bold text-center max-w-md";
+    document.body.appendChild(alert);
+    setTimeout(() => {
+        if (document.body.contains(alert)) {
+            document.body.removeChild(alert);
+        }
+    }, 5000);
 }
 
 //function to change metric and make api call
 function toggleMetric() {
     const checkbox = document.getElementById('toggle');
     if (checkbox.checked) {
-        // fetchWeatherForecast(JSON.parse(localStorage.getItem('currentLocation')), 'imperial') // Farenheit data
         fetch5DayForecast(JSON.parse(localStorage.getItem('currentLocation')), 'imperial') // Farenheit data(JSON.parse(localStorage.getItem('currentLocation')), 'imperial') // Farenheit data
     } else {
-        // fetchWeatherForecast(JSON.parse(localStorage.getItem('currentLocation')), 'metric') // Celsious data
-        fetch5DayForecast(JSON.parse(localStorage.getItem('currentLocation')), 'metric') // Farenheit data(JSON.parse(localStorage.getItem('currentLocation')), 'metric') // Celsious data
+        fetch5DayForecast(JSON.parse(localStorage.getItem('currentLocation')), 'metric') // Celsius data(JSON.parse(localStorage.getItem('currentLocation')), 'metric') // Celsius data
     }
-    
+
 }
 
 //default call weather forecast for London, Ontario on page load
-fetch5DayForecast({lat:42.9832,lon:-81.2434}, 'metric');
+fetch5DayForecast({ lat: 42.9832, lon: -81.2434 }, 'metric');
 setInterval(() => {
-    fetch5DayForecast(JSON.parse(localStorage.getItem('currentLocation')) || {lat:42.9832,lon:-81.2434}, 'metric')
+    fetch5DayForecast(JSON.parse(localStorage.getItem('currentLocation')) || { lat: 42.9832, lon: -81.2434 }, 'metric')
 }, 900000) // auto refresh weather data every 15 mins
 //show dropdown for recently searched locations
 showDropdown()
