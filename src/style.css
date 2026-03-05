@@ -70,7 +70,8 @@ button#currentLocationBtn:active {
 
 /* 5-Day Forecast Card Styling */
 .forecastContainer {
-	scroll-behavior: smooth;
+	overflow-x: auto;
+	padding: 1rem;
 }
 
 .forecastContainer > div {
@@ -81,7 +82,7 @@ button#currentLocationBtn:active {
 	padding: 1rem;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 	text-align: center;
 	transition: all 0.3s ease;
