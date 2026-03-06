@@ -13,6 +13,7 @@ and responsive UI design**.
 
 -    Search weather by city name
 -    Search weather by current location
+-    Change units to Farenheit or Celsius
 -    Display real-time temperature
 -    Show humidity levels
 -    Display wind speed
@@ -50,6 +51,7 @@ and responsive UI design**.
     -   Wind speed
 7.  On clicking dropdown icon in search bar **recently searched locations are displayed**.
 8.  On clicking **Current Location button fetches current location data**
+9.  On clicking toggle for Celsius or farenheit units, **data is fetched with appropriate units**
 
 ------------------------------------------------------------------------
 
@@ -96,6 +98,13 @@ npm run dev
 
 ## Screenshots
 
+- Current Weather for a particular location
+
+![Current Weather Image](./screenshots/currentWeather.png)
+
+- 5 Day Forecast Display
+
+![5 Day Forecast Image](./screenshots/5DayForecast.png)
 
 ------------------------------------------------------------------------
 
