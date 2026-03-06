@@ -117,7 +117,6 @@ function selectLocation(locationObj, locationText) {
         recentLocations.push(locationObj)
         localStorage.setItem('Locations', JSON.stringify(recentLocations))
     }
-    searchInput.value = `${locationObj.name}, ${locationObj.country}`;
     // fetchWeatherForecast(locationObj, 'metric'); // make api call to get weather for selected location
     fetch5DayForecast(locationObj, 'metric'); //make api call to get forecast data
 }
@@ -130,7 +129,7 @@ async function fetch5DayForecast(location, units) {
         const weatherInfo = await response.json();
         if (weatherInfo) {
             //update DOM with weather data pending
-            // searchInput.value = `${weatherInfo.city.name}, ${weatherInfo.city.country}`;
+            searchInput.value = `${weatherInfo.city.name}, ${weatherInfo.city.country}`;
             localStorage.setItem('currentLocation', JSON.stringify(location))
             updateWeatherData(weatherInfo);
             updateForecastData(weatherInfo);
@@ -176,7 +175,7 @@ function updateWeatherData(weather) {
     const humidity = document.querySelector('.weatherHumidity');
     const weatherWindSpeed = document.querySelector('.weatherWindSpeed');
     temp.innerHTML = `<i class="fas fa-thermometer-half "></i> ${main.temp}<sup>o</sup>` // set current temperature
-    weatherLocation.innerHTML = `${searchInput.value}` || `${weather.city.name}, ${weather.city.country}`; // set location name
+    weatherLocation.innerHTML = `${weather.city.name}, ${weather.city.country}`; // set location name
     const today = new Date(weather.list[0].dt_txt).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
     weatherDate.innerHTML = `Today, ${today}` // set current date
     day.innerHTML = `${weatherDetails.description} day` //set weather condition like clear sky, rain, snow etc
