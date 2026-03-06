@@ -1,4 +1,4 @@
-# 🌦️ Weather Application
+#  Weather Application
 
 A simple and responsive **Weather Forecast Web Application** that allows
 users to search for any city and view real-time weather information such
@@ -9,19 +9,20 @@ and responsive UI design**.
 
 ------------------------------------------------------------------------
 
-## 🚀 Features
+##  Features
 
--   🔍 Search weather by city name
--   🌡️ Display real-time temperature
--   💧 Show humidity levels
--   🌬️ Display wind speed
--   🌤️ Weather condition icons
--   📱 Responsive design for different devices
--   ⚡ Fast API-based weather data fetching
+-    Search weather by city name
+-    Search weather by current location
+-    Display real-time temperature
+-    Show humidity levels
+-    Display wind speed
+-    Weather condition icons
+-    Responsive design for different devices
+-    Fast API-based weather data fetching
 
 ------------------------------------------------------------------------
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 -   **HTML5** -- Structure of the application\
 -   **CSS3** -- Styling and responsive layout\
@@ -30,12 +31,12 @@ and responsive UI design**.
 -   **Geolocation API:** Browser's geolocation API
 ------------------------------------------------------------------------
 
-## 📂 Project Structure
+##  Project Structure
 
    ![Folder Structure](./screenshots/folderStructure.png)
 ------------------------------------------------------------------------
 
-## ⚙️ How It Works
+##  How It Works
 
 1.  User enters a **city name** in the search box.
 2.  JavaScript sends a **request to the geo location weather API** to display location suggestions.
@@ -52,7 +53,7 @@ and responsive UI design**.
 
 ------------------------------------------------------------------------
 
-## 🔑 API Setup
+##  API Setup
 
 This application uses the **OpenWeatherMap API**.
 
@@ -70,7 +71,7 @@ const apiKey = "YOUR_API_KEY";
 
 ------------------------------------------------------------------------
 
-## ▶️ Run Locally
+## Run Locally
 
 Clone the repository:
 
@@ -93,12 +94,12 @@ npm run dev
 
 ------------------------------------------------------------------------
 
-## 📸 Screenshots
+## Screenshots
 
 
 ------------------------------------------------------------------------
 
-## 👩‍💻 Author
+## Author
 
 **Chandrika Prakash**
 
