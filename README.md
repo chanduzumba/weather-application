@@ -13,6 +13,7 @@ and responsive UI design**.
 
 -    Search weather by city name
 -    Search weather by current location
+-    Extreme weather alerts
 -    Change units to Farenheit or Celsius
 -    Display real-time temperature
 -    Show humidity levels
