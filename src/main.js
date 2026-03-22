@@ -79,7 +79,7 @@ async function fetchLocationSuggestions(query) {
     }
     try {
         //fetch locations based on input location
-        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${apiKey}`);
+        const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${apiKey}`);
         const locationData = await response.json(); // convert response to json
         if (locationData && locationData.length) { // check if data is present
             displayLocationSuggestions(locationData); // display location list to select
@@ -141,7 +141,7 @@ function selectLocation(locationObj, locationText) {
 //fetch 5-day forecast api
 async function fetch5DayForecast(location, units) {
     try {
-        const response = await fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${location.lat}&lon=${location.lon}&units=${units}&appid=${apiKey}`) // forecast
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.lat}&lon=${location.lon}&units=${units}&appid=${apiKey}`) // forecast
         //extract weather json from response
         const weatherInfo = await response.json();
         if (weatherInfo) {
