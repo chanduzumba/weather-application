@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sky Watch</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <!--Link custom css file-->
   <link rel="stylesheet" href="./src/style.css" type="text/css">
   <!-- Font awesome icons link -->
@@ -37,7 +38,7 @@
             class="w-full border border-solid rounded-xl text-white font-semibold opacity-100 mt-2 p-2 bg-gray-500 focus:outline-blue-400 ">
 
           <!-- search icon button -->
-          <button id="searchBtn" onclick="fetchLocationSuggestions(searchInput.value)"
+          <button id="searchBtn"
             class="absolute top-7.5 right-5 bg-blue-950 text-white rounded-xl p-2 opacity-100 hover:bg-gray-700 focus:outline-none">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
@@ -50,7 +51,7 @@
         </div>
         <!-- Current location buttto and metric toggle button -->
         <div class="flex items-center justify-between gap-4">
-          <button id="currentLocationBtn" onclick="getLocation()"
+          <button id="currentLocationBtn"
             class="border w-full self-center bg-blue-950 text-white rounded-xl p-2 opacity-100  focus:outline-none">
             <i class="fa-solid fa-location-crosshairs"></i> Current Location
           </button>
@@ -59,7 +60,7 @@
             <span id="toggle-label"
               class="mr-3 text-xl font-bolds font-medium text-gray-900 dark:text-gray-300"><sup>o</sup>C</span>
             <!-- Hidden input checkbox -->
-            <input type="checkbox" id="toggle" class="sr-only peer" onchange="toggleMetric()">
+            <input type="checkbox" id="toggle" class="sr-only peer">
             <!-- Track (the background) -->
             <div
               class="relative w-11 h-6 bg-gray-300 rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-400 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
@@ -124,7 +125,7 @@
     </div>
   </section>
   <!-- Link JS file -->
-  <script src="./src/main.js"></script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

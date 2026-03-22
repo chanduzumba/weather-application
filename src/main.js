@@ -6,6 +6,8 @@ const videoBg = document.querySelector("video");
 const currentLocationButton = document.querySelector('#currentLocationBtn');
 const dropdownMenu = document.querySelector('.dropdown-menu');
 const forecastContainer = document.querySelector('.forecastContainer');
+const searchBtn = document.getElementById("searchBtn");
+const toggle = document.getElementById("toggle");
 
 //API key from Open Weather API to make api calls
 const apiKey = '8aec84a0fbcfadc5b6fa4ff8c7a56a26';
@@ -32,6 +34,21 @@ searchList.addEventListener(('mouseleave'), () => hideSearchList());
 //add event listener to body to hide search list
 body.addEventListener('click', () => {
     hideSearchList();
+});
+
+//add event listener for search button
+searchBtn.addEventListener('click', () => {
+    fetchLocationSuggestions(searchInput.value);
+});
+
+//add event listener for current location button
+currentLocationButton.addEventListener('click', () => {
+    getLocation();
+});
+
+//add event listener for toggle
+toggle.addEventListener('change', () => {
+    toggleMetric();
 });
 
 //function to hide locations search list
