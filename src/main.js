@@ -217,15 +217,15 @@ function updateWeatherData(weather) {
 //function to change background video
 async function changeBackdrop(code) {
     if (code >= 200 && code <= 232) {
-        videoBg.src = '../assets/thunderbg.mp4' //load thunder storm bg
+        videoBg.src = '/assets/thunderbg.mp4' //load thunder storm bg
     } else if (code >= 300 && code <= 531) {
-        videoBg.src = '../assets/rainybg.mp4' //load rainy bg
+        videoBg.src = '/assets/rainybg.mp4' //load rainy bg
     } else if (code >= 600 && code <= 622) {
-        videoBg.src = '../assets/snowybg.mp4' //load snowy bg
+        videoBg.src = '/assets/snowybg.mp4' //load snowy bg
     } else if (code >= 700 && code <= 781) {
-        videoBg.src = '../assets/windybg.mp4' //load windy bg
+        videoBg.src = '/assets/windybg.mp4' //load windy bg
     } else if (code >= 800 && code <= 804) {
-        videoBg.src = '../assets/skybg.mp4' // load cloudy bg
+        videoBg.src = '/assets/skybg.mp4' // load cloudy bg
     }
     await videoBg.load()
     await videoBg.play()
